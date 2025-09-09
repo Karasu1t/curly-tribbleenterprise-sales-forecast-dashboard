@@ -4,21 +4,18 @@
 
 ```mermaid
 flowchart TD
-  A[Google Cloud Storage<br>Raw Sales Data] --> B[Cloud Run / Cloud Functions<br>Preprocessing]
-  B --> C[BigQuery<br>Raw & Processed Data]
-  C --> D[Dataform<br>Transformations]
-  D --> E[BigQuery<br>VertexAI-ready Data]
-  E --> F[VertexAI<br>Model Training & Prediction]
-  F --> G[Streamlit Web UI<br>Prediction Visualization]
-  C --> G
-  subgraph Monitoring & Automation
-    H[Cloud Logging]
-    I[Cloud Scheduler]
+  A[GCS<br>Daily Sales Data Upload] --> B[Cloud Function<br>Trigger Dataform ETL]
+  B --> C[Dataform<br>ETL Processing]
+  C --> D[BigQuery<br>Raw & Processed Data]
+  subgraph Training
+    E[Cloud Scheduler] --> F[VertexAI<br>Training Job]
+    D --> F
   end
-  B --> H
-  F --> H
-  I --> B
-  I --> F
+  F --> G[Model Artifact / Prediction API]
+  H[Streamlit Web UI] --> I[User Input<br>(Date/Store/Category)]
+  I --> J[Prediction Request]
+  J --> G
+  G --> K[Prediction Result Display]
 ```
 
 ## Overview
@@ -68,12 +65,35 @@ Many enterprises struggle to bridge the gap between raw data and actionable busi
   - Cloud Logging and basic monitoring for ETL and model operations.
   - Scheduled queries or Cloud Scheduler automate the data pipeline.
 
+## Infrastructure as Code (IaC)
+
+All Google Cloud resources (GCS, BigQuery, Cloud Run, VertexAI, etc.) are provisioned and managed using Terraform. This ensures reproducibility, scalability, and easy collaboration for infrastructure management. The Terraform code is organized in the `terraform/` directory, following best practices for modularity and environment separation.
+
+**Key Points:**
+
+- Automated provisioning of all GCP resources
+- Version-controlled infrastructure for easy rollback and auditing
+- Modular structure for reusability and clarity
+
+## CI/CD Pipeline
+
+GitHub Actions is used to automate the build, test, and deployment process for application code and container images. This includes:
+
+- Linting and testing on every pull request
+- Building and pushing Docker images to Artifact Registry
+- Deploying to Cloud Run upon merge to main branch
+- (Optional) Infrastructure changes via Terraform plan/apply workflows
+
+The CI/CD configuration is located in the `.github/workflows/` directory.
+
 ## Technical Stack
 
 - Storage & Database: Google Cloud Storage, BigQuery
 - ETL & Transformation: Cloud Functions / Cloud Run, Dataform
 - Machine Learning: VertexAI
 - Web Interface: Streamlit
+- Infrastructure as Code: Terraform
+- CI/CD: GitHub Actions
 
 ## Purpose
 
