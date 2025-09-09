@@ -3,19 +3,36 @@
 ## Architecture
 
 ```mermaid
-flowchart TD
-  A[GCS<br>Daily Sales Data Upload] --> B[Cloud Function<br>Trigger Dataform ETL]
-  B --> C[Dataform<br>ETL Processing]
-  C --> D[BigQuery<br>Raw & Processed Data]
-  subgraph Training
-    E[Cloud Scheduler] --> F[VertexAI<br>Training Job]
-    D --> F
-  end
-  F --> G[Model Artifact / Prediction API]
-  H[Streamlit Web UI] --> I[User Input<br>(Date/Store/Category)]
-  I --> J[Prediction Request]
-  J --> G
-  G --> K[Prediction Result Display]
+flowchart LR
+  %% Data Ingestion
+  A[GCS\nDaily Sales Data Upload]
+  B[Cloud Function\nTrigger Dataform ETL]
+  C[Dataform\nETL Processing]
+  D[BigQuery\nRaw & Processed Data]
+  E[Cloud Scheduler]
+  F[VertexAI\nTraining Job]
+  G[Model Artifact / Prediction API]
+  H[Streamlit Web UI]
+  I[User Input\n(Date/Store/Category)]
+  J[Prediction Request]
+  K[Prediction Result Display]
+
+  %% Main Data Flow
+  A -->|Upload| B
+  B -->|Trigger| C
+  C -->|ETL| D
+  D -->|Train Data| F
+  E -->|Schedule| F
+  F -->|Deploy| G
+  H --> I
+  I -->|Input| J
+  J -->|Request| G
+  G -->|Result| K
+
+  %% Annotations
+  classDef highlight fill:#e3f2fd,stroke:#1976d2,stroke-width:2px;
+  class A highlight;
+  class F,G highlight;
 ```
 
 ## Overview
