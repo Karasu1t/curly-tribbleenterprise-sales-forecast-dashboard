@@ -4,17 +4,17 @@
 
 ```mermaid
 flowchart LR
-  A[GCS: Daily Sales Data Upload]
-  B[Cloud Function: Trigger Dataform ETL]
-  C[Dataform: ETL Processing]
-  D[BigQuery: Raw & Processed Data]
-  E[Cloud Scheduler]
-  F[VertexAI: Training Job]
-  G[Model Artifact / Prediction API]
-  H[Streamlit Web UI]
-  I[User Input (Date/Store/Category)]
-  J[Prediction Request]
-  K[Prediction Result Display]
+  A[GCS Upload]
+  B[Cloud Function]
+  C[Dataform ETL]
+  D[BigQuery]
+  E[Scheduler]
+  F[VertexAI Train]
+  G[Prediction API]
+  H[Streamlit UI]
+  I[User Input]
+  J[Predict Req]
+  K[Result Display]
 
   A -->|Upload| B
   B -->|Trigger| C
