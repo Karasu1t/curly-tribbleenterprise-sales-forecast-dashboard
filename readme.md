@@ -1,6 +1,13 @@
+![Architecture Diagram](img/Architecture.drawio.png)
+
 # Enterprise-Level Sales Prediction Dashboard Using VertexAI
 
 ## Architecture
+
+Below are two representations of the system architecture:
+
+- **Mermaid Diagram:** Text-based, editable architecture diagram for quick reference and version control.
+- **PNG Diagram:** Visually detailed architecture diagram exported from draw.io for presentations and documentation.
 
 ```mermaid
 flowchart LR
@@ -27,6 +34,8 @@ flowchart LR
   J -->|Request| G
   G -->|Result| K
 ```
+
+![Architecture Diagram (PNG)](img/Architecture.drawio.png)
 
 ## Overview
 
