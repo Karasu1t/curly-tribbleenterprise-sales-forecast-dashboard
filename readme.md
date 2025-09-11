@@ -1,5 +1,3 @@
-![Architecture Diagram](img/Architecture.drawio.png)
-
 # Enterprise-Level Sales Prediction Dashboard Using VertexAI
 
 ## Architecture
